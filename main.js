@@ -1,7 +1,13 @@
 const board = document.getElementById('gameBoard');
+const restartButton = document.getElementById('restartButton');
+const xCounter = document.getElementById('xCounter');
+const oCounter = document.getElementById('oCounter');
+
 let currentPlayer = 'X';
 let gameBoard = ['', '', '', '', '', '', '', '', ''];
 let gameActive = true;
+let xWins = 0;
+let oWins = 0;
 
 // Initialize the game board
 function initializeBoard() {
@@ -12,6 +18,8 @@ function initializeBoard() {
         cell.addEventListener('click', handleCellClick);
         board.appendChild(cell);
     }
+    restartButton.addEventListener('click', restartGame);
+    updateCounters();
 }
 
 // Handle cell click event
@@ -22,9 +30,11 @@ function handleCellClick(event) {
     if (!gameBoard[index] && gameActive) {
         gameBoard[index] = currentPlayer;
         event.target.textContent = currentPlayer;
-        
+
         if (checkWinner()) {
             alert(`Player ${currentPlayer} wins!`);
+            currentPlayer === 'X' ? xWins++ : oWins++;
+            updateCounters();
             gameActive = false;
         } else if (gameBoard.every(cell => cell !== '')) {
             alert('It\'s a draw!');
@@ -52,6 +62,24 @@ function checkWinner() {
         const [a, b, c] = pattern;
         return gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c];
     });
+}
+
+// Restart the game
+function restartGame() {
+    // Clear the game board
+    board.innerHTML = '';
+    gameBoard = Array(9).fill('');
+    gameActive = true;
+    currentPlayer = 'X';
+
+    // Re-initialize the game board
+    initializeBoard();
+}
+
+// Update X and O counters
+function updateCounters() {
+    xCounter.textContent = `X Wins: ${xWins}`;
+    oCounter.textContent = `O Wins: ${oWins}`;
 }
 
 // Start the game
