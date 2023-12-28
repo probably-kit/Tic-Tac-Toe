@@ -2,7 +2,7 @@ const board = document.getElementById('gameBoard');
 const restartButton = document.getElementById('restartButton');
 const xCounter = document.getElementById('xCounter');
 const oCounter = document.getElementById('oCounter');
-
+//put in the object
 let currentPlayer = 'X';
 let gameBoard = ['', '', '', '', '', '', '', '', ''];
 let gameActive = true;
